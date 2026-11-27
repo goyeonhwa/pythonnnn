@@ -75,13 +75,13 @@ with tab1:
         st.caption(f"남은 재고: {remain_qty}개 | 단가: {unit_price:,}원")
 
         with st.form("rental_create_form", clear_on_submit=True):
-            col1, col2 = st.colums([2,1])
+            col1, col2 = st.columns([2,1])
             with col1:
                 renter_name = st.text_input("대여자 이름", placeholder="예: 홍길동")
             with col2:
-                rental_qty = st.number_input("대여 수량", min_value=1,max_value=remain_qty, value=1.step=1,)
+                rental_qty = st.number_input("대여 수량", min_value=1,max_value=remain_qty, value=1, step=1,)
 
-                submitted = st.form_submit_button("대여 등록")
+            submitted = st.form_submit_button("대여 등록")
 
             if submitted:
                 cleaned_name = renter_name.strip()
