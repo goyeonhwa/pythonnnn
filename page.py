@@ -10,9 +10,6 @@ if "box_orders" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "안녕하세요. 궁금한 내용을 물어보세요."}]
 
-st.sidebar.header("**대여 관리**")
-uploaded = st.sidebar.file_uploader("대여 관리 CSV 업로드", type=["csv"])
-
 with st.sidebar:
     st.subheader("⚙️대여 관리 메뉴")
     uploaded = st.sidebar.file_uploader("대여 관리 CSV 업로드", type=["csv"])
