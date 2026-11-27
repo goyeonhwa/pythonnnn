@@ -38,7 +38,7 @@ else:
         base_rows = parse_sales(sample_path.read_bytes())
     else:
         base_rows = [{"대여자": "고연화", "대여 상품": "자전거", "수량": 1, "가격": 10000}, {"대여자": "정세은", "대여 상품": "돗자리", "수량": 2, "가격": 5000}]
-all_rows = base_rows + st.session_state.pos_orders
+all_rows = base_rows + st.session_state.box_orders
 
 tab1, tab2, tab3, tab4 = st.tabs(["📥대여", "📤반납", "📦재고 조회", "💬도우미 챗봇"])
 with tab1:
@@ -48,23 +48,23 @@ with tab1:
     if selected == "전체":
         filtered = all_rows
     else:
-            filtered = [r for r in all_rows if r["product"] == selected]
-        summary = get_cached_summary(filtered)
-        col1, col2, col3 = st.columns(3)
-        col1.metric("총매출", f"{summary['revenue']:,}원")
-        col2.metric("총 판매 수량", f"{summary['quantity']:,}개")
-        col3.metric("거래 건수", f"{len(filtered)}건")
-        left, right = st.columns([1.2, 1])
-        with left:
-            st.subheader("상세 거래 내역")
-            if filtered:
-                df = pd.DataFrame(filtered)
-                df["subtotal"] = df["quantity"] * df["price"]
-                st.dataframe(df, use_container_width=True, hide_index=True)
-            else:
-                st.info("표시할 데이터가 없습니다.")
+        filtered = [r for r in all_rows if r["product"] == selected]
+    summary = get_cached_summary(filtered)
+    col1, col2, col3 = st.columns(3)
+    col1.metric("총매출", f"{summary['revenue']:,}원")
+    col2.metric("총 판매 수량", f"{summary['quantity']:,}개")
+    col3.metric("거래 건수", f"{len(filtered)}건")
+    left, right = st.columns([1.2, 1])
+    with left:
+        st.subheader("상세 거래 내역")
+        if filtered:
+            df = pd.DataFrame(filtered)
+            df["subtotal"] = df["quantity"] * df["price"]
+            st.dataframe(df, use_container_width=True, hide_index=True)
+        else:
+            st.info("표시할 데이터가 없습니다.")
     
-        with right:
-            st.subheader("상품별 대여 비중")
-            if summary["by_product"]:
-                st.bar_chart(summary["by_product"])
+    with right:
+        st.subheader("상품별 대여 비중")
+        if summary["by_product"]:
+            st.bar_chart(summary["by_product"])
