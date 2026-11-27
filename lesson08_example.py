@@ -1,0 +1,19 @@
+import streamlit as st
+st.title("FAQ 도우미")
+answers = {"너 못생김": "니가 더 못생김",
+            "나 못생김?": "ㅇㅇ ㅈㄴ 못생김 ㅋㅋ 야르렁",
+            "똥이나 먹어": "너나 많이 먹어"}
+if "chat" not in st.session_state:
+    st.session_state.chat = []
+question = st.chat_input("궁금한 점을 입력하세요")
+if question and question.strip():
+    reply = "등록된 답변이 없습니다."
+    for keyword, answer in answers.items():
+        if keyword in question:
+            reply = answer
+            break
+    st.session_state.chat.append({"role": "user", "content": question})
+    st.session_state.chat.append({"role": "assistant", "content": reply})
+for message in st.session_state.chat:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
