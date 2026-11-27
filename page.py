@@ -33,7 +33,13 @@ else:
     if sample_path.exists():
         base_rows = parse_sales(sample_path.read_bytes())
     else:
-        base_rows = [{"대여 상품": "자전거", "수량": 1, "가격": 10000}, {"대여 상품": "돗자리", "수량": 2, "가격": 5000}]
+        base_rows = [{"대여자": "고연화", "대여 상품": "자전거", "수량": 1, "가격": 10000}, {"대여자": "정세은", "대여 상품": "돗자리", "수량": 2, "가격": 5000}]
 all_rows = base_rows + st.session_state.pos_orders
 
 tab1, tab2, tab3, tab4 = st.tabs(["📥대여", "📤반납", "📦재고 조회", "💬도우미 챗봇"])
+with tab1:
+    st.subheader("📥대여")
+    products = ["전체"] + sorted({row["product"] for row in all_rows})
+    selected = st.selectbox("조회할 상품 선택", products)
+    if selected == "전체":
+        filtered = all_rows
