@@ -31,7 +31,7 @@ else:
     sample_path = Path(__file__).resolve().parent / "data" / "sales.csv"
     if sample_path.exists():
         base_rows = parse_sales(sample_path.read_bytes())
-        
+
 all_rows = base_rows + st.session_state["box_orders"]
 
 # 1. 초기 재고 설정 (실제 보유 수량과 대여 단가)
@@ -64,6 +64,37 @@ tab1, tab2, tab3= st.tabs(["📥대여", "📦재고 조회", "💬도우미 챗
 
 with tab1:
     st.subheader("📥대여")
+
+    if not available_products:
+        st.warning("현재 대여 가능한 남은 재고가 없습니다.")
+    else:
+        selected_product = st.selectbox("대여할 상품 선택", available_products)
+        remain_qty = stock_map[selected_product]["remain"]
+        unit_price = stock_map[selected_product]["price"]
+
+        st.caption(f"남은 재고: {remain_qty}개 | 단가: {unit_price:,}원")
+
+        with st.form("rental_create_form", clear_on_submit=True):
+            col1, col2 = st.colums([2,1])
+            with col1:
+                renter_name = st.text_input("대여자 이름", placeholder="예: 홍길동")
+            with col2:
+                rental_qty = st.number_input("대여 수량", min_value=1,max_value=remain_qty, value=1.step=1,)
+
+                submitted = st.form_submit_button("대여 등록")
+
+            if submitted:
+                cleaned_name = renter_name.strip()
+                if not cleaned_name:
+                    st.error("대여자 이름을 입력해 주세요.")
+                else:
+                    st.session_state["box_orders"].append({
+                        "renter": cleaned_name,
+                        "product": selected_product,
+                        "quantity": int(rental_qty),
+                        "price":unit_price,
+                    })
+                    st.success(f"{cleaned_name} | '{selected_product}' | {int(rental_qty)}개 대여 등록 완료.")
 
 with tab2:
     st.subheader("📦재고 조회")
