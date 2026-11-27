@@ -37,9 +37,11 @@ all_rows = base_rows + st.session_state["box_orders"]
 # 1. 초기 재고 설정 (실제 보유 수량과 대여 단가)
 if "inventory" not in st.session_state:
     st.session_state["inventory"] = [
-        {"product": "자전거", "price": 11000, "total_stock": 5},
-        {"product": "돗자리", "price": 5000, "total_stock": 8},
-        {"product": "캠핑의자", "price": 7000, "total_stock": 4},
+        {"product": "자전거", "price": 11000, "total_stock": 10},
+        {"product": "돗자리", "price": 5000, "total_stock": 17},
+        {"product": "의자", "price": 7000, "total_stock": 18},
+        {"product": "테이블", "price": 10000, "total_stock": 8},
+        {"product": "텐트", "price": 45000, "total_stock": 7},
     ]
 
 # 2. 현재 대여 중인 수량 집계 및 남은 재고 계산
