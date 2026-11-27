@@ -13,6 +13,10 @@ if "box_orders" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "안녕하세요. 궁금한 내용을 물어보세요."}]
 
+@st.cache_data(ttl=60)
+def get_cached_summary(rows):
+    return summarize(rows)
+
 with st.sidebar:
     st.subheader("⚙️대여 관리 메뉴")
     uploaded = st.sidebar.file_uploader("대여 관리 CSV 업로드", type=["csv"])
@@ -43,3 +47,24 @@ with tab1:
     selected = st.selectbox("조회할 상품 선택", products)
     if selected == "전체":
         filtered = all_rows
+    else:
+            filtered = [r for r in all_rows if r["product"] == selected]
+        summary = get_cached_summary(filtered)
+        col1, col2, col3 = st.columns(3)
+        col1.metric("총매출", f"{summary['revenue']:,}원")
+        col2.metric("총 판매 수량", f"{summary['quantity']:,}개")
+        col3.metric("거래 건수", f"{len(filtered)}건")
+        left, right = st.columns([1.2, 1])
+        with left:
+            st.subheader("상세 거래 내역")
+            if filtered:
+                df = pd.DataFrame(filtered)
+                df["subtotal"] = df["quantity"] * df["price"]
+                st.dataframe(df, use_container_width=True, hide_index=True)
+            else:
+                st.info("표시할 데이터가 없습니다.")
+    
+        with right:
+            st.subheader("상품별 대여 비중")
+            if summary["by_product"]:
+                st.bar_chart(summary["by_product"])
