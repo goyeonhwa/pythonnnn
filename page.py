@@ -95,7 +95,15 @@ with tab1:
                         "price":unit_price,
                     })
                     st.success(f"{cleaned_name} | '{selected_product}' | {int(rental_qty)}개 대여 등록 완료.")
+            st.subheader("현재 대여 내역")
 
+            current_rows = base_rows + st.session_state["box_orders"]
+            if current_rows:
+                df_rentals = pd.DataFrame(current_rows)
+                df_rentals["합계금액"] = df_rentals["quantity"] * df_rentals["price"]
+                st.dataframe(df_rentals, use_container_width=True, hide_index=True)
+            else:
+                st.info("등록된 대여 내역이 없습니다.")
 with tab2:
     st.subheader("📦재고 조회")
 
