@@ -5,7 +5,7 @@ from common import parse_sales,summarize
 
 st.set_page_config(page_title="재고·물품 대여 관리 페이지", layout="wide")
 st.title("📦재고·물품 대여 관리")
-st.caption("재고 조회 및 물품 대여 관리 대시보드")
+st.caption("**대여 등록시 품절 상품 새로고침 주의**")
 
 if "box_orders" not in st.session_state:
     st.session_state["box_orders"] = []
