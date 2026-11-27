@@ -101,6 +101,12 @@ with tab1:
             if current_rows:
                 df_rentals = pd.DataFrame(current_rows)
                 df_rentals["합계금액"] = df_rentals["quantity"] * df_rentals["price"]
+                df_rentals = df_rentals.rename(columns={
+                    "renter": "대여자",
+                    "product": "대여 상품",
+                    "quantity": "수량",
+                    "price": "단가",
+                })
                 st.dataframe(df_rentals, use_container_width=True, hide_index=True)
             else:
                 st.info("등록된 대여 내역이 없습니다.")
