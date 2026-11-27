@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 from common import parse_sales,summarize
 
-st.set_page_config=(page_title="미니 POS & 매출 대시보드", layout="wide")
+st.set_page_config(page_title="미니 POS & 매출 대시보드", layout="wide")
 st.title("🏪올인원 미니 POS & 매출 분석기")
 st.markdown("**학습 목표**: 입력(`form`), 상태 유지(`session_state`), 캐싱(`cache_data`), 데이터 시각화를 하나로 통합합니다.")
 
