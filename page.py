@@ -37,7 +37,7 @@ else:
     if sample_path.exists():
         base_rows = parse_sales(sample_path.read_bytes())
     else:
-        base_rows = [{"대여자": "고연화", "대여 상품": "자전거", "수량": 1, "가격": 10000}, {"대여자": "정세은", "대여 상품": "돗자리", "수량": 2, "가격": 5000}]
+        base_rows = [{"renter": "고연화", "product": "자전거", "quantity": 1, "price": 10000}, {"renter": "정세은", "product": "돗자리", "quantity": 2, "price": 5000}]
 all_rows = base_rows + st.session_state.box_orders
 
 tab1, tab2, tab3, tab4 = st.tabs(["📥대여", "📤반납", "📦재고 조회", "💬도우미 챗봇"])
