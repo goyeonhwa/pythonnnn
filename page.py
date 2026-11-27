@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="재고·물품 대여 관리 페이지", layout="wide")
 st.title("📦재고·물품 대여 관리")
-st.markdown("**재고 조회 및 물품 대여 관리 대시보드**")
+st.caption("**재고 조회 및 물품 대여 관리 대시보드**")
 
 if "box_orders" not in st.session_state:
     st.session_state["pos_orders"] = []
